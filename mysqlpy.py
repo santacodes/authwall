@@ -16,7 +16,7 @@ def check():
         print('Please try again..')
 
 
-connection = mysql.connector.connect(host='localhost',database='login',user='root',password='santa2003')
+connection = mysql.connector.connect(host='localhost',database='login',user='root',password='password')
 try:
     if connection.is_connected():
         cursor = connection.cursor()
