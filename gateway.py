@@ -5,6 +5,13 @@ from mysql.connector import connect
 db_pass = "Rocky123"
 
 
+def authenticate():
+    global cursor
+    username = str(input("Enter Username: "))
+    cursor.execute(f"select hashcode from info where username='{username}'")
+    return check_hash(cursor.fetchone()[0], str(input("Enter PASSWORD: ")))
+
+
 def recover_password():
     global cursor
     username = str(input("Enter Username: "))
@@ -25,10 +32,7 @@ def recover_password():
 
 
 def delete_user():
-    global cursor
-    username = str(input("Enter Username: "))
-    cursor.execute(f"select hashcode from info where username='{username}'")
-    password = check_hash(cursor.fetchone()[0], str(input("Enter PASSWORD: ")))
+    password = authenticate()
     if password:
         cursor.execute(f"delete from info where username='{username}'")
         connection.commit()
@@ -37,10 +41,7 @@ def delete_user():
 
 
 def login():
-    global cursor
-    username = str(input("Enter Username: "))
-    cursor.execute(f"select hashcode from info where username='{username}'")
-    password = check_hash(cursor.fetchone()[0], str(input("Enter PASSWORD: ")))
+    password = authenticate()
     if password:
         print("Succesfully logged in")
     else:
