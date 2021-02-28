@@ -11,9 +11,17 @@ def authenticate():
     cursor.execute(f"select hashcode from info where username='{username}'")
     return check_hash(cursor.fetchone()[0], str(input("Enter PASSWORD: ")))
 
+def check_existance(username):
+    curson.execute(f'select username from info where username='{username}'')
+    if username != -1:
+        return True
+    else:
+        return False
+
 
 def recover_password():
     global cursor
+    global username
     username = str(input("Enter Username: "))
     cursor.execute(f"select sqone, sqtwo, sqthree, hashcode from info where username='{username}'")
     sq_one = check_hash(cursor.fetchone()[0], str(input("Name of Your Father: ")))
