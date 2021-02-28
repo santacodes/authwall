@@ -16,9 +16,9 @@ def recover_password():
     global cursor
     username = str(input("Enter Username: "))
     cursor.execute(f"select sqone, sqtwo, sqthree, hashcode from info where username='{username}'")
-    sq_one = check_hash(cursor.fetchone()[0], str(input("Name of father: ")))
-    sq_two = check_hash(cursor.fetchone()[0], str(input("Name of favorite movie: ")))
-    sq_three = check_hash(cursor.fetchone()[0], str(input("Name of favorite song: ")))
+    sq_one = check_hash(cursor.fetchone()[0], str(input("Name of Your Father: ")))
+    sq_two = check_hash(cursor.fetchone()[0], str(input("Name of Favorite Movie: ")))
+    sq_three = check_hash(cursor.fetchone()[0], str(input("Name of Favorite Song: ")))
     if sq_one and sq_two and sq_three:
         hashcode = str(hash_password(str(input("Enter New Password: "))))
         password = check_hash(cursor.fetchone()[0], hashcode)
@@ -28,7 +28,7 @@ def recover_password():
         else:
             print('Your new password cannot be the same as your old one.')
     else:
-        print("You got one or more security questions wrong!")
+        print("You got one or more security questions Wrong!")
 
 
 def delete_user():
@@ -37,7 +37,7 @@ def delete_user():
         cursor.execute(f"delete from info where username='{username}'")
         connection.commit()
     else:
-        print("You do not have authorization")
+        print("You do not have the Authorization")
 
 
 def login():
@@ -45,7 +45,7 @@ def login():
     if password:
         print("Succesfully logged in")
     else:
-        print("Not Unsuccessful logged in")
+        print("Incorrect Password")
 
 
 def register():
@@ -53,9 +53,9 @@ def register():
     username = str(input("Enter Username: "))
     hashcode = str(hash_password(str(input("Enter Password: "))))
     print("Security Questions")
-    sqone = str(hash_password(str(input("What's your father's name: "))))
-    sqtwo = str(hash_password(str(input("Who is your favorite movie: "))))
-    sqthree = str(hash_password(str(input("What is your favorite song: "))))
+    sqone = str(hash_password(str(input("What's Your Father's name: "))))
+    sqtwo = str(hash_password(str(input("Who is Your Favorite movie: "))))
+    sqthree = str(hash_password(str(input("What is Your Favorite song: "))))
     cursor.execute(f"insert into info values ('{username}', '{hashcode}', '{sqone}', '{sqtwo}', '{sqthree}')")
     connection.commit()
 
