@@ -20,6 +20,8 @@ def recover_password():
             connection.commit()
         else:
             print('loda le le mera')
+    else:
+        print("Nhi ghar aake marunga")
 
 
 def delete_user():
