@@ -10,8 +10,8 @@ def recover_password():
     username = str(input("Enter Username: "))
     cursor.execute(f"select sqone, sqtwo, sqthree, hashcode from info where username='{username}'")
     sq_one = check_hash(cursor.fetchone()[0], str(input("Name of father: ")))
-    sq_two = check_hash(cursor.fetchone()[0], str(input("Name of favorite pornstar: ")))
-    sq_three = check_hash(cursor.fetchone()[0], str(input("Name of favorite pornsite: ")))
+    sq_two = check_hash(cursor.fetchone()[0], str(input("Name of favorite movie: ")))
+    sq_three = check_hash(cursor.fetchone()[0], str(input("Name of favorite song: ")))
     if sq_one and sq_two and sq_three:
         hashcode = str(hash_password(str(input("Enter New Password: "))))
         password = check_hash(cursor.fetchone()[0], hashcode)
@@ -19,9 +19,9 @@ def recover_password():
             cursor.execute(f"UPDATE info SET hashcode='{hashcode}' WHERE username='{username}'")
             connection.commit()
         else:
-            print('loda le le mera')
+            print('Your new password cannot be the same as your old one.')
     else:
-        print("Nhi ghar aake marunga")
+        print("You got one or more security questions wrong!")
 
 
 def delete_user():
@@ -53,8 +53,8 @@ def register():
     hashcode = str(hash_password(str(input("Enter Password: "))))
     print("Security Questions")
     sqone = str(hash_password(str(input("What's your father's name: "))))
-    sqtwo = str(hash_password(str(input("Who is your favorite pornstar: "))))
-    sqthree = str(hash_password(str(input("What is your favorite pornsite: "))))
+    sqtwo = str(hash_password(str(input("Who is your favorite movie: "))))
+    sqthree = str(hash_password(str(input("What is your favorite song: "))))
     cursor.execute(f"insert into info values ('{username}', '{hashcode}', '{sqone}', '{sqtwo}', '{sqthree}')")
     connection.commit()
 
