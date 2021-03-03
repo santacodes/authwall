@@ -2,8 +2,6 @@ from hash_pass import hash_password, check_hash
 from mysql.connector import Error
 from mysql.connector import connect
 
-db_pass = "Rocky123"
-
 
 def authenticate():
     global cursor
@@ -16,10 +14,8 @@ def recover_password():
     global cursor
     username = str(input("Enter Username: "))
     cursor.execute(f"select sqone, sqtwo, sqthree, hashcode from info where username='{username}'")
-    sq_one = check_hash(cursor.fetchone()[0], str(input("Name of father: ")))
-    sq_two = check_hash(cursor.fetchone()[0], str(input("Name of favorite movie: ")))
-    sq_three = check_hash(cursor.fetchone()[0], str(input("Name of favorite song: ")))
-    if sq_one and sq_two and sq_three:
+    sq = check_hash(cursor.fetchone()[0], str(input("Name of father: ")))
+    if sq:
         hashcode = str(hash_password(str(input("Enter New Password: "))))
         password = check_hash(cursor.fetchone()[0], hashcode)
         if password:
@@ -32,7 +28,9 @@ def recover_password():
 
 
 def delete_user():
-    password = authenticate()
+    username = str(input("Enter Username: "))
+    cursor.execute(f"select hashcode from info where username='{username}'")
+    password = check_hash(cursor.fetchone()[0], str(input("Enter PASSWORD: ")))
     if password:
         cursor.execute(f"delete from info where username='{username}'")
         connection.commit()
@@ -53,10 +51,8 @@ def register():
     username = str(input("Enter Username: "))
     hashcode = str(hash_password(str(input("Enter Password: "))))
     print("Security Questions")
-    sqone = str(hash_password(str(input("What's your father's name: "))))
-    sqtwo = str(hash_password(str(input("Who is your favorite movie: "))))
-    sqthree = str(hash_password(str(input("What is your favorite song: "))))
-    cursor.execute(f"insert into info values ('{username}', '{hashcode}', '{sqone}', '{sqtwo}', '{sqthree}')")
+    sq = str(hash_password(str(input("What's your father's name: "))))
+    cursor.execute(f"insert into info values ('{username}', '{hashcode}', '{sq}')")
     connection.commit()
 
 
@@ -64,7 +60,7 @@ if __name__ == '__main__':
     global cursor
     # db_pass = input("For Administrators! (press enter to use default) enter DB password: ")
     connection = connect(
-        host='localhost', database='login', user='SuperUser', password=db_pass)
+        host='localhost', database='login', user='SuperUser', password="Rocky123")
 
     try:
         if connection.is_connected():
