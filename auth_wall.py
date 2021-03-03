@@ -83,14 +83,53 @@ class MainWindow(QMainWindow):
         self.ui.SQR.textChanged.connect(self.checkRegister)
         self.ui.SubmitR.clicked.connect(self.Register)
 
+        # LogIn Page Connect
+        self.ui.UserD.textChanged.connect(self.checkDelete)
+        self.ui.PassD.textChanged.connect(self.checkDelete)
+        self.ui.SubmitD.clicked.connect(self.Delete)
+
+        # Reset Page Connecte
+        self.ui.UserP.textChanged.connect(self.checkReset)
+        self.ui.PassP.textChanged.connect(self.checkReset)
+        self.ui.SQP.textChanged.connect(self.checkReset)
+        self.ui.sqP.currentIndexChanged.connect(self.checkReset)
+        self.ui.SubmitP.clicked.connect(self.Reset)
+
         # Initialize Window
         self.show()
+
+    def Reset(self):
+        msg = QMessageBox()
+        if self.core.authenticate_seq(self.ui.UserP.text(), self.ui.SQP.text(), str(self.ui.sqP.currentIndex())):
+            print("K")
+            self.core.change_hash(self.ui.UserP.text(), self.ui.PassP.text())
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle(f"Password for {self.ui.UserP.text()} Reset Complete")
+            msg.setText(f"Password for user {self.ui.UserP.text()} has been successfully updated.")
+            msg.setInformativeText(
+                "This application is meant to be integrated into other projects. This is just a demo.")
+        else:
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("You have entered the incorrect security question or password.")
+            msg.setInformativeText(
+                "This application is meant to be integrated into other projects. This is just a demo.")
+            msg.setWindowTitle("Incorrect Security Question/Answer!")
+        msg.exec_()
+        self._reset()
+
+    def checkReset(self):
+        if (self.ui.UserP.text() not in [None, ""] and self.ui.PassP not in [None, ""] and
+            self.ui.SQP not in [None, ""] and self.core.check_existance(self.ui.UserP.text())
+            and self.ui.sqP.currentIndex() != -1):
+            self.ui.SubmitP.setEnabled(True)
+        else:
+            self.ui.SubmitP.setEnabled(False)
 
     def Register(self):
         msg = QMessageBox()
         self.core.add(self.ui.UserR.text(), self.ui.PassR.text(),
                       self.ui.SQR.text(), str(self.ui.sqR.currentIndex()))
-        msg.setIcon(QMessageBox.Warning)
+        msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle("User Registered")
         msg.setText(f"User {self.ui.UserR.text()} Registered")
         msg.setInformativeText(
@@ -121,8 +160,33 @@ class MainWindow(QMainWindow):
         msg.exec_()
         self._reset()
 
+    def Delete(self):
+        msg = QMessageBox()
+        if self.core.authenticate(self.ui.UserD.text(), self.ui.PassD.text()):
+            self.core.delete(self.ui.UserD.text())
+            msg.setIcon(QMessageBox.Information)
+            msg.setText(f"User {self.ui.UserD.text()} has been deleted from the database.")
+            msg.setInformativeText(
+                "This application is meant to be integrated into other projects. This is just a demo.")
+            msg.setWindowTitle(f"User {self.ui.UserD.text()} Deleted!")
+        else:
+            msg.setIcon(QMessageBox.Information)
+            msg.setText(
+                f"InCorrect Password for user {self.ui.UserD.text()}.")
+            msg.setInformativeText(
+                "This application is meant to be integrated into other projects. This is just a demo.")
+            msg.setWindowTitle("InCorrect Password!")
+        msg.exec_()
+        self._reset()
+
+    def checkDelete(self):
+        if self.ui.UserD.text() not in [None, ""] and self.ui.PassD.text() not in [None, ""] and self.core.check_existance(self.ui.UserD.text()):
+            self.ui.SubmitD.setEnabled(True)
+        else:
+            self.ui.SubmitD.setEnabled(False)
+
     def checkLogin(self):
-        if self.ui.UserL.text() not in [None, ""] and self.ui.PassL.text() not in [None, ""]:
+        if self.ui.UserL.text() not in [None, ""] and self.ui.PassL.text() not in [None, ""] and self.core.check_existance(self.ui.UserL.text()):
             self.ui.SubmitL.setEnabled(True)
         else:
             self.ui.SubmitL.setEnabled(False)
@@ -153,6 +217,13 @@ class MainWindow(QMainWindow):
         self.ui.UserR.setText('')
         self.ui.PassR.setText('')
         self.ui.SQR.setText('')
+        self.ui.SubmitD.setEnabled(False)
+        self.ui.UserD.setText('')
+        self.ui.PassD.setText('')
+        self.ui.UserP.setText('')
+        self.ui.SQP.setText('')
+        self.ui.PassP.setText('')
+        self.ui.SubmitP.setEnabled(False)
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()

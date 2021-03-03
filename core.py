@@ -44,7 +44,7 @@ class AuthWall():
         if check_hash(self._get_hash(user), password):
             return False
         self.cursor.execute(
-            f"UPDATE info set hashcode='{hash_password(password)} WHERE user='{user}''")
+            f"UPDATE info set hashcode='{hash_password(password)}' WHERE user='{user}'")
         self.db.commit()
         return True
 
