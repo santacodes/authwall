@@ -16,12 +16,12 @@ class AuthWall():
                               user=user, password=password)
         except mysql.connector.errors.ProgrammingError as e:
             if str(e) != f"1045 (28000): Access denied for user '{user}'@'{host}' (using password: YES)":
-                return e
+                raise e
         try:
             if self.db.is_connected():
                 self.cursor = self.db.cursor()
         except mysql.connector.errors as e:
-            return e
+            raise e
 
     def _get_hash(self, user):
         self.cursor.execute(f"select hashcode from info where user='{user}'")
@@ -29,8 +29,6 @@ class AuthWall():
 
     def authenticate(self, user, password):
         """Authenticate User."""
-        print(self._get_hash(user))
-        # sys.exit()
         return True if check_hash(self._get_hash(user), password) else False
 
     def authenticate_seq(self, user, sq, index):
@@ -58,10 +56,10 @@ class AuthWall():
     def check_existance(self, user):
         """Check if User Exists."""
         self.cursor.execute(f"SELECT * FROM info where user='{user}'")
-        return True if self.cursor.fetchone() else False
+        return True if self.cursor.fetchall() else False
 
     def add(self, user, password, sq, sq_index):
         """Add User."""
         self.cursor.execute(
-            f"INSERT INTO info VALUES ('{user}', '{hash_password(password)}', '{hash_password(sq)}', '{hash_password(sq_index)}'")
+            f"INSERT INTO info VALUES ('{user}', '{hash_password(password)}', '{hash_password(sq)}', '{hash_password(sq_index)}')")
         self.db.commit()

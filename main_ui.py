@@ -40,10 +40,10 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.AppName = QtWidgets.QLabel(self.frame_2)
-        self.AppName.setGeometry(QtCore.QRect(1, 1, 1423, 125))
+        self.AppName.setGeometry(QtCore.QRect(1, 15, 1423, 111))
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(79)
+        font.setPointSize(73)
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         self.label_2.setStyleSheet("color: rgba(255, 19, 19, 214);")
         self.label_2.setObjectName("label_2")
         self.Exit = QtWidgets.QPushButton(self.frame_2)
-        self.Exit.setGeometry(QtCore.QRect(0, 0, 171, 31))
+        self.Exit.setGeometry(QtCore.QRect(0, 90, 171, 31))
         font = QtGui.QFont()
         font.setFamily("Arial Black")
         font.setPointSize(17)
@@ -70,12 +70,37 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Exit.setFont(font)
         self.Exit.setStyleSheet("QPushButton {background-color: rgba(226, 32, 36, 125);\n"
+"    border-width: 2px;\n"
+"    border-radius: 10px;\n"
+"    border-color: red;\n"
 "    color: rgba(255, 255, 255, 125);    \n"
-"border: none;}\n"
+"    padding: 6px;}\n"
 "\n"
 "QPushButton::hover {background-color: rgba(226, 32, 36, 200);\n"
 "    color: rgba(255, 255, 255, 235);}")
         self.Exit.setObjectName("Exit")
+        self.Back = QtWidgets.QPushButton(self.frame_2)
+        self.Back.setGeometry(QtCore.QRect(-19270, 0, 40000, 31))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Back.sizePolicy().hasHeightForWidth())
+        self.Back.setSizePolicy(sizePolicy)
+        self.Back.setMaximumSize(QtCore.QSize(40000, 16777215))
+        font = QtGui.QFont()
+        font.setFamily("Arial Black")
+        font.setPointSize(17)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Back.setFont(font)
+        self.Back.setStyleSheet("QPushButton {\n"
+"    background-color: qlineargradient(spread:reflect, x1:0.416, y1:0, x2:0.523, y2:1, stop:0.268657 rgba(62, 59, 59, 246), stop:1 rgba(211, 113, 27, 30));\n"
+"    border: none;\n"
+"    color: rgba(255, 255, 255, 125);}\n"
+"\n"
+"QPushButton::hover {    background-color: qlineargradient(spread:reflect, x1:0.416, y1:0, x2:0.523, y2:1, stop:0.268657 rgba(62, 59, 59, 100), stop:1 rgba(211, 113, 27, 65));\n"
+"    color: rgba(190, 203, 197, 150);}")
+        self.Back.setObjectName("Back")
         self.verticalLayout_2.addWidget(self.frame_2)
         self.frame_3 = QtWidgets.QFrame(self.frame)
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -379,7 +404,7 @@ class Ui_MainWindow(object):
         self.SQR.setFont(font)
         self.SQR.setStyleSheet("color: rgb(255, 76, 16);\n"
 "background-color: qlineargradient(spread:reflect, x1:1, y1:0.579, x2:0, y2:0.477273, stop:0.268657 rgba(62, 59, 59, 246), stop:1 rgba(211, 113, 27, 55));")
-        self.SQR.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.SQR.setEchoMode(QtWidgets.QLineEdit.Normal)
         self.SQR.setObjectName("SQR")
         self.stackedWidget.addWidget(self.Register)
         self.Reset = QtWidgets.QWidget()
@@ -525,6 +550,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -533,6 +559,7 @@ class Ui_MainWindow(object):
         self.AppName.setText(_translate("MainWindow", "Auth Wall"))
         self.label_2.setText(_translate("MainWindow", "Made by freakingrocky & santacodes"))
         self.Exit.setText(_translate("MainWindow", "Quit"))
+        self.Back.setText(_translate("MainWindow", "Home"))
         self.LogInBtn.setText(_translate("MainWindow", "Log In"))
         self.RegisterBtn.setText(_translate("MainWindow", "Register"))
         self.DeleteUserBtn.setText(_translate("MainWindow", "Delete User"))

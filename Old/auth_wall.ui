@@ -247,7 +247,7 @@ QPushButton::hover {	background-color: qlineargradient(spread:reflect, x1:0.416,
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="Home">
              <layout class="QVBoxLayout" name="verticalLayout_4">
